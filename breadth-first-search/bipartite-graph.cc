@@ -1,33 +1,34 @@
+// https://paiza.jp/works/mondai/bfs_dfs_problems/bfs_dfs_problems__bipartite_graph?language_uid=python2
 #include <iostream>
 #include <vector>
 #include <queue>
 using namespace std;
 using Graph = vector<vector<int>>;
-vector<bool> seen;
+// white: 0, black: 1, unvisited: -1
+vector<int> colors;
 
 int main()
 {
   int n, m;
   cin >> n >> m;
-  seen.assign(n, false);
+  colors.assign(n, -1);
   queue<int> que;
   Graph G(n);
   for (int i = 0; i < m; i++)
   {
     int a, b;
     cin >> a >> b;
+    a--, b--;
     G[a].push_back(b);
     G[b].push_back(a);
   }
 
-  int count = 0;
   for (int i = 0; i < n; i++)
   {
-    if (seen[i] == true)
+    if (colors[i] != -1)
       continue;
-    seen[i] = true;
+    colors[i] = 0;
     que.push(i);
-
     while (!que.empty())
     {
       int v = que.front();
@@ -35,14 +36,19 @@ int main()
 
       for (auto &nextV : G[v])
       {
-        if (seen[nextV] == true)
+        if (colors[v] == colors[nextV])
+        {
+          cout << "No" << endl;
+          return 0;
+        }
+        if (colors[nextV] == 1 - colors[v])
           continue;
-        seen[nextV] = true;
+        colors[nextV] = 1 - colors[v];
         que.push(nextV);
       }
     }
-    count++;
   }
 
-  cout << count << endl;
+  cout << "Yes" << endl;
+  return 0;
 }
