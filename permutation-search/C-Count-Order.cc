@@ -16,28 +16,28 @@ int main()
     cin >> p[i];
   for (int i = 0; i < n; i++)
     cin >> q[i];
-  vector<int> first_permutation(n);
+  vector<int> ord(n);
   for (int i = 0; i < n; i++)
-    first_permutation[i] = i + 1;
+    ord[i] = i + 1;
 
   // It is smarter to use map //
   int count = 0;
   map<vector<int>, int> nth_permutation;
   do
   {
-    nth_permutation[first_permutation] = ++count;
-  } while (next_permutation(first_permutation.begin(), first_permutation.end()));
+    nth_permutation[ord] = ++count;
+  } while (next_permutation(ord.begin(), ord.end()));
   int answer = abs(nth_permutation[p] - nth_permutation[q]);
 
   // int a, b, count = 0;
   // do
   // {
   //   count++;
-  //   if (first_permutation == p)
+  //   if (ord == p)
   //     a = count;
-  //   if (first_permutation == q)
+  //   if (ord == q)
   //     b = count;
-  // } while (next_permutation(first_permutation.begin(), first_permutation.end()));
+  // } while (next_permutation(ord.begin(), ord.end()));
   // int answer = abs(a - b);
 
   cout << answer << endl;
